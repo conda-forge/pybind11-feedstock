@@ -69,6 +69,7 @@ Terminology
 
 Current build status
 ====================
+
 Linux: [![Circle CI](https://circleci.com/gh/conda-forge/pybind11-feedstock.svg?style=svg)](https://circleci.com/gh/conda-forge/pybind11-feedstock)
 OSX: [![TravisCI](https://travis-ci.org/conda-forge/pybind11-feedstock.svg?branch=master)](https://travis-ci.org/conda-forge/pybind11-feedstock) 
 Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/conda-forge/pybind11-feedstock?svg=True)](https://ci.appveyor.com/project/conda-forge/pybind11-feedstock/branch/master)
