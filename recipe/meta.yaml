@@ -1,4 +1,4 @@
-{% set version = "1.8.1" %}
+{% set version = "2.0.0rc1" %}
 
 package:
     name: pybind11
@@ -7,7 +7,7 @@ package:
 source:
     fn: pybind11-{{ version }}.tar.gz
     url: https://pypi.io/packages/source/p/pybind11/pybind11-{{ version }}.tar.gz
-    md5: 67845d8fd89a1c400dc7c61ccdee14d6
+    md5: b42aefd6521a1d0fec0ae985519dfb41
 
 build:
     number: 0
