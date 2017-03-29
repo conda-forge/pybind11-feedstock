@@ -1,4 +1,5 @@
 {% set version = "2.1.0" %}
+{% set sha256 = "2860f2b8d0c9f65f0698289a161385f59d099b7ead1bf64e8993c486f2b93ee0" %}
 
 package:
     name: pybind11
@@ -6,15 +7,15 @@ package:
 
 source:
     fn: pybind11-{{ version }}.tar.gz
-    url: https://pypi.io/packages/source/p/pybind11/pybind11-{{ version }}.tar.gz
-    sha256: aaa6269ee28819aed1ae815f0eaa87fd1155ef0ada80c4bfeb9ecce1392dc62e
+    url: https://github.com/pybind/pybind11/archive/v{{ version }}.tar.gz
+    sha256: {{ sha256 }}
 
 build:
-    number: 0
-    script: python setup.py install --single-version-externally-managed --record record.txt
+    number: 1
 
 requirements:
     build:
+        - cmake
         - python
         - setuptools
     run:
@@ -23,6 +24,10 @@ requirements:
 test:
     imports:
         - pybind11
+    commands:
+        - test -f ${PREFIX}/share/cmake/pybind11/pybind11Config.cmake                         # [unix]
+        - if exist %PREFIX%\share\cmake\pybind11\pybind11Config.cmake (exit 0) else (exit 1)  # [win]
+
 
 about:
     home: https://github.com/pybind/pybind11/
