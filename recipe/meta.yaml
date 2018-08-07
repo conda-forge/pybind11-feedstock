@@ -11,12 +11,14 @@ source:
     sha256: {{ sha256 }}
 
 build:
-    number: 0
+    number: 1
 
 requirements:
     build:
-        - python
         - cmake
+        - {{ compiler('cxx') }}
+    host:
+        - python
         - setuptools
     run:
         - python
