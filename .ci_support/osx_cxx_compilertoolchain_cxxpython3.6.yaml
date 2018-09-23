@@ -1,5 +1,7 @@
 MACOSX_DEPLOYMENT_TARGET:
 - '10.9'
+build_number_decrement:
+- '1000'
 channel_sources:
 - conda-forge,defaults
 channel_targets:
@@ -16,3 +18,8 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - '3.6'
+zip_keys:
+- - cxx_compiler
+  - channel_sources
+  - channel_targets
+  - build_number_decrement
