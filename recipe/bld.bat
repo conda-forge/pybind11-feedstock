@@ -3,8 +3,7 @@ REM Install headers with projectConfig.cmake files with cmake
 mkdir build
 cd build
 cmake -G "NMake Makefiles" ^
-      -D CMAKE_INSTALL_PREFIX=%PREFIX% ^
-      -D USE_PYTHON_INCLUDE_DIR=ON ^
+      -D CMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
       -D PYBIND11_TEST=OFF ^
       %SRC_DIR%
 if errorlevel 1 exit 1

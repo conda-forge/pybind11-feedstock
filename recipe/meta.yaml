@@ -11,7 +11,7 @@ source:
     sha256: {{ sha256 }}
 
 build:
-    number: 1
+    number: 2
 
 requirements:
     build:
@@ -28,8 +28,8 @@ test:
     imports:
         - pybind11
     commands:
-        - test -f ${PREFIX}/share/cmake/pybind11/pybind11Config.cmake                         # [unix]
-        - if exist %PREFIX%\share\cmake\pybind11\pybind11Config.cmake (exit 0) else (exit 1)  # [win]
+        - test -f ${PREFIX}/share/cmake/pybind11/pybind11Config.cmake                                 # [unix]
+        - if exist %LIBRARY_PREFIX%\share\cmake\pybind11\pybind11Config.cmake (exit 0) else (exit 1)  # [win]
 
 
 about:
