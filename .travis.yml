@@ -3,68 +3,24 @@
 
 language: generic
 
-os: osx
-osx_image: xcode6.4
-
 env:
-  matrix:
-    - CONFIG=osx_cxx_compilerclangxxpython2.7
-    - CONFIG=osx_cxx_compilerclangxxpython3.5
-    - CONFIG=osx_cxx_compilerclangxxpython3.6
-    - CONFIG=osx_cxx_compilerclangxxpython3.7
-    - CONFIG=osx_cxx_compilertoolchain_cxxpython2.7
-    - CONFIG=osx_cxx_compilertoolchain_cxxpython3.5
-    - CONFIG=osx_cxx_compilertoolchain_cxxpython3.6
-    - CONFIG=osx_cxx_compilertoolchain_cxxpython3.7
-
   global:
     # The BINSTAR_TOKEN secure variable. This is defined canonically in conda-forge.yml.
     - secure: "qtF5PeDDd46bv4LyPNhCWmS9QMn/FRc/Xkh1ytHfW/TG/5OVUgp5kLq3MR9s+c2ryT5cDxm1L26GdnekclY2E+lwRGXOccjxDMO1m9HHJTyrpDsAna9TAmY7a3QoafO85G47D4C39achPXlVK8NENU1A+EHo8RHXTbPAvMnBs8CYODW+OdwrwECjmtQqMk8nrbp78SJRtEaikaVLXE5gofyfaWeoRKzrKEZ2IrzKlnK5Dykoy4OAjTUNMAKquBLzjyy8DVk0LRomGIKszi21NwVccUTe18yYKll59HBJg2KVM0YlXI2fO9fSqAuv19uijZTjyWzNoBJp5omGyjPFmN+3Uy1nLx0mzgztY0WLvCWSHunCVo7wXEBqzzLh3v/V2PRP/2rboyW8P4TxMEgHlwvSbgewwBBldf9SYyTCSm17/rrtMAadcPjWf2z8WEwTeTogGcb9RU2RV2SrzkefmROCbHqiCcIKBfR75hZVOWMWHy9j5rSS2HJtixa3eCzzT7rnmuqjbUNsmnzhDIzVqGEsC5XAmiohuAIDSF5iYWqjSJcFOuS8g58a4hVvnqb/oVVXpmDDFVGEgFeWveyN5rWnNWMsU9r7goGOFigmIWFbchhX+Y18ixNf4Yocousg1OHc9QpXJWZDZa4aUAyWQLaiJgGve67rVce5OGH/INM="
 
+matrix:
+  include:
+    - env: CONFIG=linux_ppc64le_python2.7 UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=condaforge/linux-anvil-ppc64le
+      os: linux-ppc64le
 
-before_install:
-    # Fast finish the PR.
-    - |
-      (curl https://raw.githubusercontent.com/conda-forge/conda-forge-ci-setup-feedstock/branch2.0/recipe/conda_forge_ci_setup/ff_ci_pr_build.py | \
-          python - -v --ci "travis" "${TRAVIS_REPO_SLUG}" "${TRAVIS_BUILD_NUMBER}" "${TRAVIS_PULL_REQUEST}") || exit 1
+    - env: CONFIG=linux_ppc64le_python3.6 UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=condaforge/linux-anvil-ppc64le
+      os: linux-ppc64le
 
-    # Remove homebrew.
-    - |
-      echo ""
-      echo "Removing homebrew from Travis CI to avoid conflicts."
-      curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall > ~/uninstall_homebrew
-      chmod +x ~/uninstall_homebrew
-      ~/uninstall_homebrew -fq
-      rm ~/uninstall_homebrew
-
-
-install:
-    # Install Miniconda.
-    - |
-      echo ""
-      echo "Installing a fresh version of Miniconda."
-      MINICONDA_URL="https://repo.continuum.io/miniconda"
-      MINICONDA_FILE="Miniconda3-latest-MacOSX-x86_64.sh"
-      curl -L -O "${MINICONDA_URL}/${MINICONDA_FILE}"
-      bash $MINICONDA_FILE -b
-
-    # Configure conda.
-    - |
-      echo ""
-      echo "Configuring conda."
-      source /Users/travis/miniconda3/bin/activate root
-
-      conda install --yes --quiet conda-forge::conda-forge-ci-setup=2
-      setup_conda_rc ./ ./recipe ./.ci_support/${CONFIG}.yaml
-
-      source run_conda_forge_build_setup
-
-    # compiler cleanup
-    - |
-      mangle_compiler ./ ./recipe ./.ci_support/${CONFIG}.yaml
+    - env: CONFIG=linux_ppc64le_python3.7 UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=condaforge/linux-anvil-ppc64le
+      os: linux-ppc64le
 
 script:
-  # generate the build number clobber
-  - make_build_number ./ ./recipe ./.ci_support/${CONFIG}.yaml
-  - conda build ./recipe -m ./.ci_support/${CONFIG}.yaml --clobber-file ./.ci_support/clobber_${CONFIG}.yaml
-  - upload_package ./ ./recipe ./.ci_support/${CONFIG}.yaml
+  - export CI=travis
+
+
+  - if [[ ${PLATFORM} =~ .*linux.* ]]; then ./.travis/run_docker_build.sh; fi
