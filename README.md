@@ -248,5 +248,6 @@ Feedstock Maintainers
 =====================
 
 * [@SylvainCorlay](https://github.com/SylvainCorlay/)
+* [@ax3l](https://github.com/ax3l/)
 * [@wjakob](https://github.com/wjakob/)
 
