@@ -9,9 +9,12 @@ source:
     fn: pybind11-{{ version }}.tar.gz
     url: https://github.com/pybind/pybind11/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
+    patches:
+      # https://patch-diff.githubusercontent.com/raw/pybind/pybind11/pull/1877
+      - win-include-path.patch
 
 build:
-    number: 1
+    number: 2
 
 requirements:
     build:
@@ -28,9 +31,10 @@ test:
     imports:
         - pybind11
     commands:
-        - test -f ${PREFIX}/share/cmake/pybind11/pybind11Config.cmake                         # [unix]
-        - if exist %PREFIX%\share\cmake\pybind11\pybind11Config.cmake (exit 0) else (exit 1)  # [win]
-
+        - test -f ${PREFIX}/share/cmake/pybind11/pybind11Config.cmake                                 # [unix]
+        - if exist %LIBRARY_PREFIX%\share\cmake\pybind11\pybind11Config.cmake (exit 0) else (exit 1)  # [win]
+        - test $(python -c "import pybind11 as py; print(py.get_include())") == "${PREFIX}/include"         # [unix]
+        - test $(python -c "import pybind11 as py; print(py.get_include())") == "%LIBRARY_PREFIX%\include"  # [win]
 
 about:
     home: https://github.com/pybind/pybind11/
