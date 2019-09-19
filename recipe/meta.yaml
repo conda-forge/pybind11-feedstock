@@ -9,9 +9,6 @@ source:
     fn: pybind11-{{ version }}.tar.gz
     url: https://github.com/pybind/pybind11/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
-    patches:
-      # https://patch-diff.githubusercontent.com/raw/pybind/pybind11/pull/1877
-      - win-include-path.patch
 
 build:
     number: 0
