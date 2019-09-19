@@ -1,5 +1,5 @@
-{% set version = "2.3.0" %}
-{% set sha256 = "0f34838f2c8024a6765168227ba587b3687729ebf03dc912f88ff75c7aa9cfe8" %}
+{% set version = "2.4.0" %}
+{% set sha256 = "7ae50b024afb0d880fbd30702f51d093b6bbcb76610670555887e74616e0333a" %}
 
 package:
     name: pybind11
@@ -14,7 +14,7 @@ source:
       - win-include-path.patch
 
 build:
-    number: 2
+    number: 0
 
 requirements:
     build:
