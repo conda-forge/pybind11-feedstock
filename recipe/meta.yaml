@@ -1,5 +1,5 @@
-{% set version = "2.4.1" %}
-{% set sha256 = "513c53b801614e57a514368d2148150b2c3ac0cb6f9a5b5239951fe1d5fc7d58" %}
+{% set version = "2.4.2" %}
+{% set sha256 = "e212e3043cb7a15466abb8896c6924c1ce40ae2988d8c24c111afcb30735fb8f" %}
 
 package:
     name: pybind11
