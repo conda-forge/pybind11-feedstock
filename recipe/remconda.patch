@@ -1,0 +1,31 @@
+From 592867bbb23ce0a67d5d325037bf92c20f17a60f Mon Sep 17 00:00:00 2001
+From: Henry Schreiner <henry.fredrick.schreiner@cern.ch>
+Date: Wed, 15 Jan 2020 15:39:18 -0500
+Subject: [PATCH] Fix conda include reporting
+
+---
+ pybind11/__init__.py | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/pybind11/__init__.py b/pybind11/__init__.py
+index c625e8c94..5782ffea2 100644
+--- a/pybind11/__init__.py
++++ b/pybind11/__init__.py
+@@ -10,17 +10,9 @@ def get_include(user=False):
+     virtualenv = hasattr(sys, 'real_prefix') or \
+         sys.prefix != getattr(sys, "base_prefix", sys.prefix)
+ 
+-    # Are we running in a conda environment?
+-    conda = os.path.exists(os.path.join(sys.prefix, 'conda-meta'))
+-
+     if virtualenv:
+         return os.path.join(sys.prefix, 'include', 'site',
+                             'python' + sys.version[:3])
+-    elif conda:
+-        if os.name == 'nt':
+-            return os.path.join(sys.prefix, 'Library', 'include')
+-        else:
+-            return os.path.join(sys.prefix, 'include')
+     else:
+         dist = Distribution({'name': 'pybind11'})
+         dist.parse_config_files()

@@ -9,9 +9,11 @@ source:
     fn: pybind11-{{ version }}.tar.gz
     url: https://github.com/pybind/pybind11/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
+    patches:
+      - remconda.patch
 
 build:
-    number: 0
+    number: 1
 
 requirements:
     build:
