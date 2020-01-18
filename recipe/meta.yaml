@@ -32,6 +32,8 @@ test:
         - if exist %LIBRARY_PREFIX%\share\cmake\pybind11\pybind11Config.cmake (exit 0) else (exit 1)  # [win]
         - test $(python -c "import pybind11 as py; print(py.get_include())") == "${PREFIX}/include"         # [unix]
         - test $(python -c "import pybind11 as py; print(py.get_include())") == "%LIBRARY_PREFIX%\include"  # [win]
+        - test -f $(python -c "import pybind11 as py; print(py.get_include())")/pybind11/pybind11.h  # [unix]
+        - if exist $(python -c "import pybind11 as py; print(py.get_include())")\pybind11\pybind11.h (exit 0) else (exit 1)  # [win]
 
 about:
     home: https://github.com/pybind/pybind11/
