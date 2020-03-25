@@ -9,9 +9,11 @@ source:
     fn: pybind11-{{ version }}.tar.gz
     url: https://github.com/pybind/pybind11/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
+    patches:
+        - gh1494.diff
 
 build:
-    number: 2
+    number: 3
 
 requirements:
     build:
