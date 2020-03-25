@@ -39,7 +39,7 @@ test:
 
 about:
     home: https://github.com/pybind/pybind11/
-    license: BSD 3-Clause
+    license: BSD-3-Clause
     summary: Seamless operability between C++11 and Python
     license_file: LICENSE
 
