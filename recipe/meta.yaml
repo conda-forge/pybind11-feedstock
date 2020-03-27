@@ -9,9 +9,11 @@ source:
     fn: pybind11-{{ version }}.tar.gz
     url: https://github.com/pybind/pybind11/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
+    patches:
+        - gh2146.patch
 
 build:
-    number: 2
+    number: 3
 
 requirements:
     build:
@@ -37,7 +39,7 @@ test:
 
 about:
     home: https://github.com/pybind/pybind11/
-    license: BSD 3-Clause
+    license: BSD-3-Clause
     summary: Seamless operability between C++11 and Python
     license_file: LICENSE
 
