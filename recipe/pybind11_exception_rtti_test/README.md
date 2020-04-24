@@ -9,6 +9,8 @@ Thus we switched to linking libcxx against the system libcxxabi on osx.
 Going forward, we want to run this pybind11-based test each time we build
 libcxx for osx using the conda `downstreams` feature.
 
+The code here is a simplified version of the code in ` lsst/pex_exceptions`.
+
 ### install your env
 
 ```bash
