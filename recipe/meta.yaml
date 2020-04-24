@@ -27,13 +27,13 @@ requirements:
     - python
 
 test:
-  requires:                         # [osx]
-    - {{ compiler('cxx') }}         # [osx]
-    - make                          # [osx]
-    - pip                           # [osx]
-  files:                            # [osx]
-    - pybind11_exception_rtti_test  # [osx]
-    - run_exception_rtti_test.sh    # [osx]
+  requires:                         # [osx and python_impl == 'cpython']
+    - {{ compiler('cxx') }}         # [osx and python_impl == 'cpython']
+    - make                          # [osx and python_impl == 'cpython']
+    - pip                           # [osx and python_impl == 'cpython']
+  files:                            # [osx and python_impl == 'cpython']
+    - pybind11_exception_rtti_test  # [osx and python_impl == 'cpython']
+    - run_exception_rtti_test.sh    # [osx and python_impl == 'cpython']
   imports:
     - pybind11
   commands:
@@ -43,7 +43,7 @@ test:
     - if exist %LIBRARY_INC%\pybind11\pybind11.h (exit 0) else (exit 1)      # [win]
     - test -f $(python -c "import pybind11 as py; print(py.get_include())")/pybind11/pybind11.h      # [unix]
     - if exist $(python -c "import pybind11 as py; print(py.get_include())")\pybind11\pybind11.h (exit 0) else (exit 1)      # [win]
-    - bash run_exception_rtti_test.sh  # [osx]
+    - bash run_exception_rtti_test.sh  # [osx and python_impl == 'cpython']
 
 about:
   home: https://github.com/pybind/pybind11/
