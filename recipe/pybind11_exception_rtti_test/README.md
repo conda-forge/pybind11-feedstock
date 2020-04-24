@@ -1,9 +1,18 @@
 # tests of exception passing in pybind11
 
+The backstory is that when we also built libcxxabi on osx, we saw issues where
+the RTTI was not making it between different compilations for exceptions when
+using pybind11. We (really @isuruf) figured out that by having only one copy of
+the libcxxabi lib (i.e., just the system one and not the one on conda), it fixed
+this issue. (On OSX the system one alwasy gets pulled in first by python).
+Thus we switched to linking libcxx against the system libcxxabi on osx.
+Going forward, we want to run this pybind11-based test each time we build
+libcxx for osx using the conda `downstreams` feature.
+
 ### install your env
 
 ```bash
-conda create -n pybind11-test python=3.7 pybind11 compilers pytest git make
+conda create -n pybind11-test python=3.7 pybind11 compilers git make
 ```
 
 ### run
