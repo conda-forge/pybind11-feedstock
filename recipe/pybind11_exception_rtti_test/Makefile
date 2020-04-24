@@ -8,9 +8,9 @@ else
 EXTRA_FLAGS=-undefined dynamic_lookup
 PRINTLIBS=DYLD_FALLBACK_LIBRARY_PATH=../src DYLD_PRINT_LIBRARIES=YES
 SUFFIX=$(shell python3-config --extension-suffix)
-CXXFLAGS=-fPIC -O2 -stdlib=libc++ -std=c++14 -isystem ${PREFIX}/include
+# CXXFLAGS=-fPIC -O2 -stdlib=libc++ -std=c++14 -isystem ${PREFIX}/include
 SOEXT=.dylib
-LDFLAGS=-Wl,-rpath,${PREFIX}/lib -L${PREFIX}/lib -mlinker-version=${TEST_LD_VER}
+# LDFLAGS="${LDFLAGS}"-Wl,-rpath,${PREFIX}/lib -L${PREFIX}/lib -mlinker-version=${TEST_LD_VER}
 endif
 
 test: clean pymod
