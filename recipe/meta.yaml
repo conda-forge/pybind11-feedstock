@@ -10,7 +10,7 @@ source:
   url: https://github.com/pybind/pybind11/archive/v{{ version }}.tar.gz
   sha256: {{ sha256 }}
   patches:
-    - gh2146.patch
+    - gh2146.diff
 
 build:
   number: 1
