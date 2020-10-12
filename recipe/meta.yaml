@@ -1,5 +1,5 @@
-{% set version = "2.5.0" %}
-{% set sha256 = "97504db65640570f32d3fdf701c25a340c8643037c3b69aec469c10c93dc8504" %}
+{% set version = "2.6.0" %}
+{% set sha256 = "90b705137b69ee3b5fc655eaca66d0dc9862ea1759226f7ccd3098425ae69571" %}
 
 package:
   name: pybind11
@@ -9,19 +9,26 @@ source:
   fn: pybind11-{{ version }}.tar.gz
   url: https://github.com/pybind/pybind11/archive/v{{ version }}.tar.gz
   sha256: {{ sha256 }}
-  patches:
-    - gh2146.diff
 
 build:
-  number: 1
+  number: 0
+  script:
+    # There are several required flags, like --no-deps, but conda-build nicely sets them for us
+    # https://github.com/conda/conda-build/blob/d75ef9c66dbcc832d8d96f33a2aecfe893266e8c/conda_build/build.py#L2517-L2527
+    - {{ PYTHON }} -m pip install . -vvv
+    - export PYBIND11_GLOBAL_SDIST=1  # [unix]
+    - set PYBIND11_GLOBAL_SDIST=1  # [win]
+    - set PYBIND11_GLOBAL_PREFIX=Library  # [win]
+    - {{ PYTHON }} -m pip install . -vvv
 
 requirements:
   build:
     - cmake
-    - make      # [unix]
+    - make  # [unix]
     - {{ compiler('cxx') }}
   host:
     - python
+    - pip
     - setuptools
   run:
     - python
@@ -40,11 +47,14 @@ test:
 about:
   home: https://github.com/pybind/pybind11/
   license: BSD-3-Clause
-  summary: Seamless operability between C++11 and Python
+  license_family: BSD
   license_file: LICENSE
+  summary: Seamless operability between C++11 and Python
+  doc_url: https://pybind11.readthedocs.io/
 
 extra:
   recipe-maintainers:
     - ax3l
     - SylvainCorlay
     - wjakob
+    - henryiii
