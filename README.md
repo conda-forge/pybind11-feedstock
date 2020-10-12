@@ -9,6 +9,8 @@ Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/pybind11-feedst
 
 Summary: Seamless operability between C++11 and Python
 
+Documentation: https://pybind11.readthedocs.io/
+
 Current build status
 ====================
 
@@ -310,5 +312,6 @@ Feedstock Maintainers
 
 * [@SylvainCorlay](https://github.com/SylvainCorlay/)
 * [@ax3l](https://github.com/ax3l/)
+* [@henryiii](https://github.com/henryiii/)
 * [@wjakob](https://github.com/wjakob/)
 
