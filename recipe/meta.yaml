@@ -20,13 +20,18 @@ outputs:
   - name: pybind11-abi
     version: {{ abi_version }}
     build:
+      noarch: generic
+      skip: True  # [not linux-64]
       run_exports:
         # strong because sometimes this is in build
         strong:
           - pybind11-abi =={{ abi_version }}
     test:
+      source_files:
+        - include/pybind11/detail/internals.h
       commands:
-        - echo "works!"
+        # make sure the internals version matches the package version
+        - if [ $(grep "#define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h | cut -d' ' -f3) != "{{ abi_version }}" ]; then exit 1; fi
 
   - name: pybind11-global
     script: build-pybind11-global.sh   # [unix]
