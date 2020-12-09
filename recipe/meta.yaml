@@ -1,6 +1,8 @@
 {% set version = "2.6.1" %}
 {% set sha256 = "cdbe326d357f18b83d10322ba202d69f11b2f49e2d87ade0dc2be0c5c34f8e2a" %}
-{% set abi_version = "42" %}  # TODO: what should this be?
+
+# this is set to PYBIND11_INTERNALS_VERSION
+{% set abi_version = "4" %}
 
 package:
   name: pybind11-split
@@ -20,6 +22,9 @@ outputs:
     build:
       run_exports:
         - pybind11-abi =={{ abi_version }}
+    test:
+      commands:
+        - echo "works!"
 
   - name: pybind11-global
     script: build-pybind11-global.sh   # [unix]
