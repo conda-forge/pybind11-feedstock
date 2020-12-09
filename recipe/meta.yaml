@@ -21,7 +21,9 @@ outputs:
     version: {{ abi_version }}
     build:
       run_exports:
-        - pybind11-abi =={{ abi_version }}
+        # strong because sometimes this is in build
+        strong:
+          - pybind11-abi =={{ abi_version }}
     test:
       commands:
         - echo "works!"
