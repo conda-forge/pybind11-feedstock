@@ -2,7 +2,7 @@
 {% set sha256 = "cdbe326d357f18b83d10322ba202d69f11b2f49e2d87ade0dc2be0c5c34f8e2a" %}
 
 package:
-  name: pybind11
+  name: pybind11-split
   version: {{ version }}
 
 source:
@@ -30,9 +30,6 @@ outputs:
         - setuptools
       run:
         - python
-    test:
-      import:
-        - pybind11_global
 
   - name: pybind11
     script: build-pybind11.sh   # [unix]
