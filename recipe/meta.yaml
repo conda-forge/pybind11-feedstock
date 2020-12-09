@@ -11,40 +11,56 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
-  script:
-    # There are several required flags, like --no-deps, but conda-build nicely sets them for us
-    # https://github.com/conda/conda-build/blob/d75ef9c66dbcc832d8d96f33a2aecfe893266e8c/conda_build/build.py#L2517-L2527
-    - {{ PYTHON }} -m pip install . -vvv
-    - export PYBIND11_GLOBAL_SDIST=1  # [unix]
-    - set PYBIND11_GLOBAL_SDIST=1  # [win]
-    - set PYBIND11_GLOBAL_PREFIX=Library  # [win]
-    - {{ PYTHON }} -m pip install . -vvv
+  number: 1
 
-requirements:
-  build:
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - cmake
-    - make  # [unix]
-    - {{ compiler('cxx') }}
-  host:
-    - python
-    - pip
-    - setuptools
-  run:
-    - python
+outputs:
+  - name: pybind11-global
+    script: build-pybind11-global.sh   # [unix]
+    script: build-pybind11-global.bat  # [win]
+    requirements:
+      build:
+        - python                                 # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - cmake
+        - make  # [unix]
+        - {{ compiler('cxx') }}
+      host:
+        - python
+        - pip
+        - setuptools
+      run:
+        - python
+    test:
+      import:
+        - pybind11_global
 
-test:
-  imports:
-    - pybind11
-  commands:
-    - test -f ${PREFIX}/share/cmake/pybind11/pybind11Config.cmake                                     # [unix]
-    - if exist %LIBRARY_PREFIX%\share\cmake\pybind11\pybind11Config.cmake (exit 0) else (exit 1)      # [win]
-    - test -f ${PREFIX}/include/pybind11/pybind11.h      # [unix]
-    - if exist %LIBRARY_INC%\pybind11\pybind11.h (exit 0) else (exit 1)      # [win]
-    - test -f $(python -c "import pybind11 as py; print(py.get_include())")/pybind11/pybind11.h      # [unix]
-    - if exist $(python -c "import pybind11 as py; print(py.get_include())")\pybind11\pybind11.h (exit 0) else (exit 1)      # [win]
+  - name: pybind11
+    script: build-pybind11.sh   # [unix]
+    script: build-pybind11.bat  # [win]
+    requirements:
+      build:
+        - python                                 # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - cmake
+        - make  # [unix]
+        - {{ compiler('cxx') }}
+      host:
+        - python
+        - pip
+        - setuptools
+      run:
+        - python
+        - {{ pin_subpackage("pybind11-global", exact=True) }}
+    test:
+      imports:
+        - pybind11
+      commands:
+        - test -f ${PREFIX}/share/cmake/pybind11/pybind11Config.cmake                                     # [unix]
+        - if exist %LIBRARY_PREFIX%\share\cmake\pybind11\pybind11Config.cmake (exit 0) else (exit 1)      # [win]
+        - test -f ${PREFIX}/include/pybind11/pybind11.h      # [unix]
+        - if exist %LIBRARY_INC%\pybind11\pybind11.h (exit 0) else (exit 1)      # [win]
+        - test -f $(python -c "import pybind11 as py; print(py.get_include())")/pybind11/pybind11.h      # [unix]
+        - if exist $(python -c "import pybind11 as py; print(py.get_include())")\pybind11\pybind11.h (exit 0) else (exit 1)      # [win]
 
 about:
   home: https://github.com/pybind/pybind11/
