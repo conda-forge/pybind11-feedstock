@@ -21,7 +21,7 @@ outputs:
     version: {{ abi_version }}
     build:
       noarch: generic
-      skip: True  # [not linux-64]
+      skip: True  # [not linux64]
       run_exports:
         # strong because sometimes this is in build
         strong:
