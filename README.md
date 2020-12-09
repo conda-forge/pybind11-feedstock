@@ -238,6 +238,7 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pybind11-green.svg)](https://anaconda.org/conda-forge/pybind11) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pybind11.svg)](https://anaconda.org/conda-forge/pybind11) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pybind11.svg)](https://anaconda.org/conda-forge/pybind11) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pybind11.svg)](https://anaconda.org/conda-forge/pybind11) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pybind11--global-green.svg)](https://anaconda.org/conda-forge/pybind11-global) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pybind11-global.svg)](https://anaconda.org/conda-forge/pybind11-global) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pybind11-global.svg)](https://anaconda.org/conda-forge/pybind11-global) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pybind11-global.svg)](https://anaconda.org/conda-forge/pybind11-global) |
 
 Installing pybind11
 ===================
@@ -248,10 +249,10 @@ Installing `pybind11` from the `conda-forge` channel can be achieved by adding `
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `pybind11` can be installed with:
+Once the `conda-forge` channel has been enabled, `pybind11, pybind11-global` can be installed with:
 
 ```
-conda install pybind11
+conda install pybind11 pybind11-global
 ```
 
 It is possible to list all of the versions of `pybind11` available on your platform with:
