@@ -30,6 +30,9 @@ outputs:
         - setuptools
       run:
         - python
+    test:
+      commands:
+        - echo "works!"
 
   - name: pybind11
     script: build-pybind11.sh   # [unix]
