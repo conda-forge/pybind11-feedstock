@@ -23,8 +23,6 @@ outputs:
       noarch: generic
       skip: True  # [not linux64]
       run_exports:
-        # strong because sometimes this is in build
-        strong:
           - pybind11-abi =={{ abi_version }}
     test:
       source_files:
