@@ -47,6 +47,8 @@ outputs:
         - setuptools
       run:
         - python
+      run_constrained:
+        - pybind11-abi =={{ abi_version }}
     test:
       commands:
         - echo "works!"
