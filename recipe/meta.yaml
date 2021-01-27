@@ -1,5 +1,5 @@
-{% set version = "2.6.1" %}
-{% set sha256 = "cdbe326d357f18b83d10322ba202d69f11b2f49e2d87ade0dc2be0c5c34f8e2a" %}
+{% set version = "2.6.2" %}
+{% set sha256 = "8ff2fff22df038f5cd02cea8af56622bc67f5b64534f1b83b9f133b8366acff2" %}
 
 # this is set to PYBIND11_INTERNALS_VERSION
 {% set abi_version = "4" %}
@@ -14,16 +14,16 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 3
+  number: 0
 
 outputs:
   - name: pybind11-abi
     version: {{ abi_version }}
     build:
       noarch: generic
-      skip: True  # [not linux64]
+      skip: true  # [not linux64]
       run_exports:
-          - pybind11-abi =={{ abi_version }}
+        - pybind11-abi =={{ abi_version }}
     test:
       source_files:
         - include/pybind11/detail/internals.h
@@ -32,7 +32,7 @@ outputs:
         - if [ $(grep "#define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h | cut -d' ' -f3) != "{{ abi_version }}" ]; then exit 1; fi
 
   - name: pybind11-global
-    script: build-pybind11-global.sh   # [unix]
+    script: build-pybind11-global.sh  # [unix]
     script: build-pybind11-global.bat  # [win]
     requirements:
       build:
@@ -54,7 +54,7 @@ outputs:
         - echo "works!"
 
   - name: pybind11
-    script: build-pybind11.sh   # [unix]
+    script: build-pybind11.sh  # [unix]
     script: build-pybind11.bat  # [win]
     requirements:
       build:
