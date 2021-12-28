@@ -16,7 +16,7 @@ index a2326287d8..2c44d25d8d 100644
              "-DPYBIND11_NOPYTHON=ON",
          ]
 +        if "CMAKE_ARGS" in os.environ:
-+            cmd = os.environ["CMAKE_ARGS"].split() + cmd
++            cmd = cmd[:5] + os.environ["CMAKE_ARGS"].split() + cmd[5:]
          cmake_opts = dict(cwd=DIR, stdout=sys.stdout, stderr=sys.stderr)
          subprocess.check_call(cmd, **cmake_opts)
          subprocess.check_call(["cmake", "--install", tmpdir], **cmake_opts)
