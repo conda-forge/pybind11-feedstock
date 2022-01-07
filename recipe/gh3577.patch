@@ -11,7 +11,7 @@ diff --git a/setup.py b/setup.py
 index a2326287d8..2c44d25d8d 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -146,6 +146,8 @@ def remove_output(*sources):
+@@ -146,6 +146,9 @@ def remove_output(*sources):
              "-DBUILD_TESTING=OFF",
              "-DPYBIND11_NOPYTHON=ON",
          ]
