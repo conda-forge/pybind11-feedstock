@@ -4,6 +4,12 @@
 # this is set to PYBIND11_INTERNALS_VERSION
 {% set abi_version = "4" %}
 
+# this one reflects how we set the various flags in conda-forge that controls
+# how tightly the pybind11 ABI is fixed
+# it start(s/ed) at 4 so that when introduced at pybind11 internals version 4, we have 4.4 > 4
+# when pybind11 bumps, we will get 4.5 etc so we should always be ordered properly
+{% set conda_forge_abi_version = "4" %}
+
 package:
   name: pybind11-split
   version: {{ version }}
@@ -19,12 +25,12 @@ build:
 outputs:
   - name: pybind11-abi
     script: build-pybind11-abi.sh
-    version: {{ abi_version }}
+    version: {{ conda_forge_abi_version }}.{{ abi_version }}
     build:
       noarch: generic
       skip: true  # [not linux64]
       run_exports:
-        - pybind11-abi =={{ abi_version }}
+        - pybind11-abi =={{ conda_forge_abi_version }}.{{ abi_version }}
     test:
       source_files:
         - include/pybind11/detail/internals.h
@@ -33,7 +39,7 @@ outputs:
         - if [ $(grep "#define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h | cut -d' ' -f3) != "{{ abi_version }}" ]; then exit 1; fi
         - test -f ${PREFIX}/etc/conda/activate.d/pybind11-abi_activate.sh
         - test -f ${PREFIX}/etc/conda/deactivate.d/pybind11-abi_deactivate.sh
-        - echo ${CXXFLAGS} | grep -e "-DPYBIND11_COMPILER_TYPE= -DPYBIND11_BUILD_ABI="  
+        - echo ${CXXFLAGS} | grep -e "-DPYBIND11_COMPILER_TYPE= -DPYBIND11_BUILD_ABI="
 
   - name: pybind11-global
     script: build-pybind11-global.sh  # [unix]
