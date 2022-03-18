@@ -18,8 +18,7 @@ build:
 
 outputs:
   - name: pybind11-abi
-    script: build-pybind11-abi.sh  # [unix]
-    # script: build-pybind11-abi.bat  # [win]
+    script: build-pybind11-abi.sh
     version: {{ abi_version }}
     build:
       noarch: generic
@@ -32,9 +31,9 @@ outputs:
       commands:
         # make sure the internals version matches the package version
         - if [ $(grep "#define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h | cut -d' ' -f3) != "{{ abi_version }}" ]; then exit 1; fi
-        - test -f ${PREFIX}/etc/conda/activate.d/pybind11-abi_activate.sh            # [unix]
-        - test -f ${PREFIX}/etc/conda/deactivate.d/pybind11-abi_deactivate.sh        # [unix]
-        - echo ${CXXFLAGS} | grep "-DPYBIND11_COMPILER_TYPE= -DPYBIND11_BUILD_ABI="  # [unix]
+        - test -f ${PREFIX}/etc/conda/activate.d/pybind11-abi_activate.sh
+        - test -f ${PREFIX}/etc/conda/deactivate.d/pybind11-abi_deactivate.sh
+        - echo ${CXXFLAGS} | grep -e "-DPYBIND11_COMPILER_TYPE= -DPYBIND11_BUILD_ABI="  
 
   - name: pybind11-global
     script: build-pybind11-global.sh  # [unix]
