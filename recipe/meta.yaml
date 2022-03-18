@@ -6,9 +6,7 @@
 
 # this one reflects how we set the various flags in conda-forge that controls
 # how tightly the pybind11 ABI is fixed
-# it start(s/ed) at 4 so that when introduced at pybind11 internals version 4, we have 4.4 > 4
-# when pybind11 bumps, we will get 4.5 etc so we should always be ordered properly
-{% set conda_forge_abi_version = "4" %}
+{% set conda_forge_abi_epoch = "1" %}
 
 package:
   name: pybind11-split
@@ -25,12 +23,12 @@ build:
 outputs:
   - name: pybind11-abi
     script: build-pybind11-abi.sh
-    version: {{ conda_forge_abi_version }}.{{ abi_version }}
+    version: {{ conda_forge_abi_epoch }}!{{ abi_version }}
     build:
       noarch: generic
       skip: true  # [not linux64]
       run_exports:
-        - pybind11-abi =={{ conda_forge_abi_version }}.{{ abi_version }}
+        - pybind11-abi =={{ conda_forge_abi_epoch }}!{{ abi_version }}
     test:
       source_files:
         - include/pybind11/detail/internals.h
