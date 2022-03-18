@@ -32,7 +32,7 @@ outputs:
         - include/pybind11/detail/internals.h   # [unix]
       commands:                                 # [unix]
         # make sure the internals version matches the package version
-        - if [ "$(grep '#    define PYBIND11_INTERNALS_VERSION 4' include/pybind11/detail/internals.h | cut -d' ' -f4)" != "{{ abi_version }}" ]; then exit 1; fi  # [unix]
+        - if [ "$(grep -o 'define PYBIND11_INTERNALS_VERSION 4' include/pybind11/detail/internals.h | cut -d' ' -f3)" != "{{ abi_version }}" ]; then exit 1; fi  # [unix]
         - test -f ${PREFIX}/etc/conda/activate.d/pybind11-abi_activate.sh               # [unix]
         - test -f ${PREFIX}/etc/conda/deactivate.d/pybind11-abi_deactivate.sh           # [unix]
         - echo ${CXXFLAGS} | grep -e "-DPYBIND11_COMPILER_TYPE= -DPYBIND11_BUILD_ABI="  # [unix]
