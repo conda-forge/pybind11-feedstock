@@ -3,11 +3,11 @@ function backup_and_append() {
     local way=$1
     local envvar=$2
 
-    if [[ ${way} == "activate" ]]; then
+    if [ "${way}" = "activate" ]; then
         eval oldval="\$${envvar}"
 
         eval "export PYBIND11_ABI_BACKUP_${envvar}=\"${oldval}\""
-        if [[ ! ${oldval} ]]; then
+        if [ -z "${oldval}" ]; then
             eval "export ${envvar}=\"-DPYBIND11_COMPILER_TYPE= -DPYBIND11_BUILD_ABI=\""
         else
             eval "export ${envvar}=\"${oldval} -DPYBIND11_COMPILER_TYPE= -DPYBIND11_BUILD_ABI=\""
@@ -15,7 +15,7 @@ function backup_and_append() {
     else
         eval backval="\$PYBIND11_ABI_BACKUP_${envvar}"
 
-        if [[ ! ${backval} ]]; then
+        if [ -z "${backval}" ]; then
             eval "unset ${envvar}"
         else
             eval "export ${envvar}=\"${backval}\""
