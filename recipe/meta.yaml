@@ -21,7 +21,6 @@ outputs:
     version: {{ abi_version }}
     build:
       noarch: generic
-      skip: true  # [not linux64]
       run_exports:
         - pybind11-abi =={{ abi_version }}
     test:
@@ -69,6 +68,8 @@ outputs:
       noarch: python
       ignore_run_exports_from:
         - {{ compiler('cxx') }}
+      entrypoints:
+        - pybind11-config=pybind11.__main__:main
     requirements:
       build:
         - python                                 # [build_platform != target_platform]
