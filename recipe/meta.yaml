@@ -1,5 +1,5 @@
-{% set version = "2.10.1" %}
-{% set sha256 = "111014b516b625083bef701df7880f78c2243835abdb263065b6b59b960b6bad" %}
+{% set version = "2.10.2" %}
+{% set sha256 = "93bd1e625e43e03028a3ea7389bba5d3f9f2596abc074b068e70f4ef9b1314ae" %}
 
 # this is set to PYBIND11_INTERNALS_VERSION
 {% set abi_version = "4" %}
