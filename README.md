@@ -1,11 +1,11 @@
-About pybind11-split
-====================
+About pybind11-split-feedstock
+==============================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/pybind11-feedstock/blob/main/LICENSE.txt)
 
 Home: https://github.com/pybind/pybind11/
 
 Package license: BSD-3-Clause
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/pybind11-feedstock/blob/main/LICENSE.txt)
 
 Summary: Seamless operability between C++11 and Python
 
