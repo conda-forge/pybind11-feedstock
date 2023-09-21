@@ -16,6 +16,11 @@ source:
 build:
   number: 1
 
+requirements:
+  build:
+    # ensure we split up CI jobs
+    - python  # [linux64]
+
 outputs:
   - name: pybind11-abi
     version: {{ abi_version }}
