@@ -14,7 +14,12 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
+
+requirements:
+  build:
+    # ensure we split up CI jobs
+    - python  # [linux64]
 
 outputs:
   - name: pybind11-abi
