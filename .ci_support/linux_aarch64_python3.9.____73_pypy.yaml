@@ -22,3 +22,6 @@ python:
 - 3.9.* *_73_pypy
 target_platform:
 - linux-aarch64
+zip_keys:
+- - python
+  - channel_sources
