@@ -1,5 +1,5 @@
-{% set version = "2.12.0" %}
-{% set sha256 = "bf8f242abd1abcd375d516a7067490fb71abd79519a282d22b6e4d19282185a7" %}
+{% set version = "2.13.0" %}
+{% set sha256 = "8ac2bd138ea3c12683d3496361af6bee0f7754f86bf050e6c61e3966de688215" %}
 
 # this is set to PYBIND11_INTERNALS_VERSION
 {% set abi_version = "4" %}
@@ -46,6 +46,7 @@ outputs:
         - cmake
         - make  # [unix]
         - {{ compiler('cxx') }}
+        - {{ stdlib("c") }}
       host:
         - python
         - pip
@@ -68,6 +69,7 @@ outputs:
         - cmake
         - make  # [unix]
         - {{ compiler('cxx') }}
+        - {{ stdlib("c") }}
       host:
         - python
         - pip
