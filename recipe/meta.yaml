@@ -2,7 +2,10 @@
 {% set sha256 = "e08cb87f4773da97fa7b5f035de8763abc656d87d5773e62f6da0587d1f0ec20" %}
 
 # this is set to PYBIND11_INTERNALS_VERSION
-{% set abi_version = "4" %}
+# since 2.12.0 pybind11 defines two ABI version. 4 and 5 for 3.12+ or msvc.
+# https://github.com/pybind/pybind11/blob/v2.12.0/include/pybind11/detail/internals.h#L40
+{% set abi_version = "4" %}     # [py<312 and not win]
+{% set abi_version = "5" %}     # [py>=312 or win]
 
 package:
   name: pybind11-split
@@ -14,7 +17,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -33,8 +36,9 @@ outputs:
       source_files:
         - include/pybind11/detail/internals.h
       commands:
-        # make sure the internals version matches the package version
-        - if [ $(grep "#define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h | cut -d' ' -f3) != "{{ abi_version }}" ]; then exit 1; fi
+        # the ABI version depends on both python version and operating system, so just check if the used version is one of the one defined in the header 
+        - matched=false; while read -r version; do [ "$version" -eq "{{ abi_version }}" ] && { matched=true; break; }; done < <(awk '/define PYBIND11_INTERNALS_VERSION/{print $NF}' include/pybind11/detail/internals.h); [ "$matched" = true ] && exit 0 || exit 1
+
 
   - name: pybind11-global
     script: build-pybind11-global.sh  # [unix]
@@ -80,6 +84,10 @@ outputs:
       run_constrained:
         - pybind11-abi =={{ abi_version }}
     test:
+      script_env:
+        - PYBIND11_INTERNALS_VERSION={{ abi_version }}
+      files:
+        - test_abi
       imports:
         - pybind11
       commands:
