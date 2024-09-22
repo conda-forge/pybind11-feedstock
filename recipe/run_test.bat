@@ -17,7 +17,7 @@ for /F "tokens=2 delims==" %%a in ("%line%") do set "version=%%a"
 
 REM Compare to the environment variable EXPECTED_PYBIND11_INTERNALS_VERSION
 if "%version%"=="%EXPECTED_PYBIND11_INTERNALS_VERSION%" (
-    echo Versions match.
+    echo Versions match, compilation: "%version%" expected: "%EXPECTED_PYBIND11_INTERNALS_VERSION%"
 ) else (
     echo Error: PYBIND11_INTERNALS_VERSION version mismatch, compilation: "%version%" expected: "%EXPECTED_PYBIND11_INTERNALS_VERSION%"
     exit 1
