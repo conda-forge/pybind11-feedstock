@@ -1,8 +1,9 @@
 {% set version = "2.13.6" %}
 {% set sha256 = "e08cb87f4773da97fa7b5f035de8763abc656d87d5773e62f6da0587d1f0ec20" %}
 
-# this is set to PYBIND11_INTERNALS_VERSION
-{% set abi_version = "4" %}
+# Since pybind11 2.13.6, 2.12.1, 2.11.2, PYBIND11_INTERNALS_VERSION is not used anymore
+# to check for compatibility between different,
+{% set abi_version = "10" %}
 
 package:
   name: pybind11-split
@@ -29,12 +30,6 @@ outputs:
       skip: true  # [not linux64]
       run_exports:
         - pybind11-abi =={{ abi_version }}
-    test:
-      source_files:
-        - include/pybind11/detail/internals.h
-      commands:
-        # make sure the internals version matches the package version
-        - if [ $(grep "#define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h | cut -d' ' -f3) != "{{ abi_version }}" ]; then exit 1; fi
 
   - name: pybind11-global
     script: build-pybind11-global.sh  # [unix]
