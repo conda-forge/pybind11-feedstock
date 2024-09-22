@@ -1,7 +1,7 @@
 cd test_abi
 
 # Cleanup the build folder
-rm -r ./build
+rm -rf ./build
 
 # Configure the project
 cmake -GNinja -S. -Bbuild -DCMAKE_BUILD_TYPE=Release

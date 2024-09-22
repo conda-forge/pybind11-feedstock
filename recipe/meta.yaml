@@ -85,7 +85,7 @@ outputs:
         - pybind11-abi =={{ abi_version }}
     test:
       script_env:
-        - PYBIND11_INTERNALS_VERSION={{ abi_version }}
+        - EXPECTED_PYBIND11_INTERNALS_VERSION={{ abi_version }}
       files:
         - test_abi
       imports:
