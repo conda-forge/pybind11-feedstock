@@ -1,5 +1,8 @@
 cd test_abi
 
+# Debug env variables
+env
+
 # Cleanup the build folder
 rm -rf ./build
 
