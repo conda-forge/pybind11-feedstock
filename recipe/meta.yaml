@@ -90,6 +90,8 @@ outputs:
         - test_abi
       imports:
         - pybind11
+      script: run_test.bat  # [win]
+      script: run_test.sh  # [not win]
       commands:
         - test -f ${PREFIX}/share/cmake/pybind11/pybind11Config.cmake                                     # [unix]
         - if exist %LIBRARY_PREFIX%\share\cmake\pybind11\pybind11Config.cmake (exit 0) else (exit 1)      # [win]
