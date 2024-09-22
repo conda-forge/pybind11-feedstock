@@ -1,5 +1,8 @@
 cd test_abi
 
+REM debug env variable
+set
+
 REM Cleanup the build folder
 rmdir /s /q build
 if errorlevel 1 exit 1
