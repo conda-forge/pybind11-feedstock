@@ -66,6 +66,9 @@ outputs:
   - name: pybind11
     script: build-pybind11.sh  # [unix]
     script: build-pybind11.bat  # [win]
+    build:
+      script_env:
+        - EXPECTED_PYBIND11_INTERNALS_VERSION={{ abi_version }}
     requirements:
       build:
         - python                                 # [build_platform != target_platform]
@@ -84,8 +87,6 @@ outputs:
       run_constrained:
         - pybind11-abi =={{ abi_version }}
     test:
-      script_env:
-        - EXPECTED_PYBIND11_INTERNALS_VERSION={{ abi_version }}
       files:
         - test_abi
       imports:
