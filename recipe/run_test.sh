@@ -20,7 +20,7 @@ version=${line#PYBIND11_INTERNALS_VERSION=}
 
 # Compare to the environment variable EXPECTED_PYBIND11_INTERNALS_VERSION
 if [ "$version" = "$EXPECTED_PYBIND11_INTERNALS_VERSION" ]; then
-    echo "Versions match."
+    echo "Versions match - compilation: $version expected: $EXPECTED_PYBIND11_INTERNALS_VERSION"
 else
     echo "Error: Version mismatch - compilation: $version expected: $EXPECTED_PYBIND11_INTERNALS_VERSION"
     exit 1
