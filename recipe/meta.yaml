@@ -30,6 +30,10 @@ outputs:
       skip: true  # [not linux64]
       run_exports:
         - pybind11-abi =={{ abi_version }}
+    test:
+      commands:
+        - echo "pybind11-abi is a metapackage, no test is necessary."
+
 
   - name: pybind11-global
     script: build-pybind11-global.sh  # [unix]
