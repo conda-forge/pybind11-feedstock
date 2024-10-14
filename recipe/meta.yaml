@@ -15,6 +15,12 @@ source:
 
 build:
   number: 1
+  noarch: python
+
+requirements:
+  host:
+    # ensure we make python a top level job
+    - python
 
 outputs:
   - name: pybind11-abi
