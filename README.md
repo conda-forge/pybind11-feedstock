@@ -15,11 +15,9 @@ Current build status
 ====================
 
 
-<table>
-    
-  <tr>
-    <td>Azure</td>
+<table><tr><td>All platforms:</td>
     <td>
+<<<<<<< HEAD
       <details>
         <summary>
           <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=841&branchName=main">
@@ -242,6 +240,11 @@ Current build status
           </tbody>
         </table>
       </details>
+=======
+      <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=841&branchName=main">
+        <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/pybind11-feedstock?branchName=main">
+      </a>
+>>>>>>> cd62307 (noarch: python and fix test)
     </td>
   </tr>
 </table>

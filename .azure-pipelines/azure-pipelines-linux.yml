@@ -28,6 +28,7 @@ jobs:
         CONFIG: linux_64_python3.9.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
+<<<<<<< HEAD
       linux_aarch64_python3.10.____cpython:
         CONFIG: linux_aarch64_python3.10.____cpython
         UPLOAD_PACKAGES: 'True'
@@ -68,6 +69,8 @@ jobs:
         CONFIG: linux_ppc64le_python3.9.____cpython
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
+=======
+>>>>>>> cd62307 (noarch: python and fix test)
   timeoutInMinutes: 360
   variables: {}
 

@@ -14,7 +14,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -34,11 +34,15 @@ outputs:
         - include/pybind11/detail/internals.h
       commands:
         # make sure the internals version matches the package version
-        - if [ $(grep "#define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h | cut -d' ' -f3) != "{{ abi_version }}" ]; then exit 1; fi
+        - if [ $(grep "define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h | rev | cut -d ' ' -f1 | rev) != "{{ abi_version }}" ]; then exit 1; fi
 
   - name: pybind11-global
     script: build-pybind11-global.sh  # [unix]
     script: build-pybind11-global.bat  # [win]
+    build:
+      noarch: python
+      ignore_run_exports_from:
+        - {{ compiler('cxx') }}
     requirements:
       build:
         - python                                 # [build_platform != target_platform]
@@ -53,6 +57,11 @@ outputs:
         - setuptools
       run:
         - python
+        {% if win %}
+        - __win
+        {% else %}
+        - __unix
+        {% endif %}
       run_constrained:
         - pybind11-abi =={{ abi_version }}
     test:
@@ -62,6 +71,10 @@ outputs:
   - name: pybind11
     script: build-pybind11.sh  # [unix]
     script: build-pybind11.bat  # [win]
+    build:
+      noarch: python
+      ignore_run_exports_from:
+        - {{ compiler('cxx') }}
     requirements:
       build:
         - python                                 # [build_platform != target_platform]
@@ -77,6 +90,11 @@ outputs:
       run:
         - python
         - {{ pin_subpackage("pybind11-global", exact=True) }}
+        {% if win %}
+        - __win
+        {% else %}
+        - __unix
+        {% endif %}
       run_constrained:
         - pybind11-abi =={{ abi_version }}
     test:
