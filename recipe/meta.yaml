@@ -16,11 +16,6 @@ source:
 build:
   number: 1
 
-requirements:
-  build:
-    # ensure we split up CI jobs
-    - python  # [linux64]
-
 outputs:
   - name: pybind11-abi
     version: {{ abi_version }}
@@ -41,8 +36,6 @@ outputs:
     script: build-pybind11-global.bat  # [win]
     build:
       noarch: python
-      ignore_run_exports_from:
-        - {{ compiler('cxx') }}
     requirements:
       build:
         - python                                 # [build_platform != target_platform]
@@ -57,11 +50,6 @@ outputs:
         - setuptools
       run:
         - python
-        {% if win %}
-        - __win
-        {% else %}
-        - __unix
-        {% endif %}
       run_constrained:
         - pybind11-abi =={{ abi_version }}
     test:
@@ -73,8 +61,8 @@ outputs:
     script: build-pybind11.bat  # [win]
     build:
       noarch: python
-      ignore_run_exports_from:
-        - {{ compiler('cxx') }}
+      entry_points:
+        - pybind11-config = pybind11.__main__:main
     requirements:
       build:
         - python                                 # [build_platform != target_platform]
@@ -90,11 +78,6 @@ outputs:
       run:
         - python
         - {{ pin_subpackage("pybind11-global", exact=True) }}
-        {% if win %}
-        - __win
-        {% else %}
-        - __unix
-        {% endif %}
       run_constrained:
         - pybind11-abi =={{ abi_version }}
     test:
@@ -117,6 +100,7 @@ about:
   doc_url: https://pybind11.readthedocs.io/
 
 extra:
+  feedstock-name: pybind11
   recipe-maintainers:
     - ax3l
     - SylvainCorlay

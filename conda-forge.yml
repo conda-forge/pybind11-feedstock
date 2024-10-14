@@ -15,6 +15,3 @@ provider:
   linux_ppc64le: default
   win: azure
 test: native_and_emulated
-noarch_platforms:
-  - linux_64
-  - win_64
