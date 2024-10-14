@@ -5,7 +5,7 @@ c_stdlib_version:
 cdt_name:
 - cos7
 channel_sources:
-- conda-forge/label/python_rc,conda-forge
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -25,5 +25,3 @@ target_platform:
 zip_keys:
 - - c_stdlib_version
   - cdt_name
-- - python
-  - channel_sources
