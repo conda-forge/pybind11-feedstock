@@ -14,19 +14,19 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
+  noarch: python
 
 requirements:
-  build:
-    # ensure we split up CI jobs
-    - python  # [linux64]
+  host:
+    # ensure we make python a top level job
+    - python
 
 outputs:
   - name: pybind11-abi
     version: {{ abi_version }}
     build:
       noarch: generic
-      skip: true  # [not linux64]
       run_exports:
         - pybind11-abi =={{ abi_version }}
     test:
@@ -39,6 +39,8 @@ outputs:
   - name: pybind11-global
     script: build-pybind11-global.sh  # [unix]
     script: build-pybind11-global.bat  # [win]
+    build:
+      noarch: python
     requirements:
       build:
         - python                                 # [build_platform != target_platform]
@@ -62,6 +64,10 @@ outputs:
   - name: pybind11
     script: build-pybind11.sh  # [unix]
     script: build-pybind11.bat  # [win]
+    build:
+      noarch: python
+      entry_points:
+        - pybind11-config = pybind11.__main__:main
     requirements:
       build:
         - python                                 # [build_platform != target_platform]
@@ -99,6 +105,7 @@ about:
   doc_url: https://pybind11.readthedocs.io/
 
 extra:
+  feedstock-name: pybind11
   recipe-maintainers:
     - ax3l
     - SylvainCorlay
