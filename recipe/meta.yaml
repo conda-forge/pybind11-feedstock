@@ -55,6 +55,9 @@ outputs:
         - setuptools
       run:
         - python
+        # layouts are different on unix vs win
+        - __unix        # [unix]
+        - __win         # [win]
       run_constrained:
         - pybind11-abi =={{ abi_version }}
     test:
