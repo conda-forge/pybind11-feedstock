@@ -14,7 +14,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
+  number: 2
   noarch: python
 
 requirements:
@@ -29,12 +29,15 @@ outputs:
       noarch: generic
       run_exports:
         - pybind11-abi =={{ abi_version }}
+      # This output is broken. Disabling for now
+      # See https://github.com/conda-forge/pybind11-feedstock/issues/96
+      skip: True
     test:
       source_files:
         - include/pybind11/detail/internals.h
       commands:
         # make sure the internals version matches the package version
-        - if [ $(grep "#define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h | cut -d' ' -f3) != "{{ abi_version }}" ]; then exit 1; fi
+        - if [ $(grep "#define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h | cut -d' ' -f3) != "{{ abi_version }}" ]; then exit 1; fi  # [unix]
 
   - name: pybind11-global
     script: build-pybind11-global.sh  # [unix]
@@ -55,6 +58,9 @@ outputs:
         - setuptools
       run:
         - python
+        # layouts are different on unix vs win
+        - __unix        # [unix]
+        - __win         # [win]
       run_constrained:
         - pybind11-abi =={{ abi_version }}
     test:
@@ -82,7 +88,7 @@ outputs:
         - setuptools
       run:
         - python
-        - {{ pin_subpackage("pybind11-global", exact=True) }}
+        - pybind11-global {{ PKG_VERSION }}=*_{{ PKG_BUILDNUM }}
       run_constrained:
         - pybind11-abi =={{ abi_version }}
     test:
@@ -90,11 +96,11 @@ outputs:
         - pybind11
       commands:
         - test -f ${PREFIX}/share/cmake/pybind11/pybind11Config.cmake                                     # [unix]
-        - if exist %LIBRARY_PREFIX%\share\cmake\pybind11\pybind11Config.cmake (exit 0) else (exit 1)      # [win]
+        - if not exist %LIBRARY_PREFIX%\share\cmake\pybind11\pybind11Config.cmake exit 1      # [win]
         - test -f ${PREFIX}/include/pybind11/pybind11.h      # [unix]
-        - if exist %LIBRARY_INC%\pybind11\pybind11.h (exit 0) else (exit 1)      # [win]
+        - if not exist %LIBRARY_INC%\pybind11\pybind11.h exit 1      # [win]
         - test -f $(python -c "import pybind11 as py; print(py.get_include())")/pybind11/pybind11.h      # [unix]
-        - if exist $(python -c "import pybind11 as py; print(py.get_include())")\pybind11\pybind11.h (exit 0) else (exit 1)      # [win]
+        - if not exist %SP_DIR%\pybind11\include\pybind11\pybind11.h exit 1      # [win]
 
 about:
   home: https://github.com/pybind/pybind11/
