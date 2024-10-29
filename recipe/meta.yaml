@@ -1,9 +1,6 @@
 {% set version = "2.13.6" %}
 {% set sha256 = "e08cb87f4773da97fa7b5f035de8763abc656d87d5773e62f6da0587d1f0ec20" %}
 
-# this is set to PYBIND11_INTERNALS_VERSION
-{% set abi_version = "4" %}
-
 package:
   name: pybind11-split
   version: {{ version }}
@@ -29,12 +26,22 @@ outputs:
       noarch: generic
       run_exports:
         - pybind11-abi =={{ abi_version }}
+    requirements:
+      run:
+        - __unix   # [unix]
+        - __win    # [win]
+        - python >=3.12  # [abi_version == 5 or win]
+        - python <3.12   # [abi_version == 4 and unix]
+      run_constrained:
+        - pybind11-global {{ version }}
+        - pybind11 {{ version }}
     test:
       source_files:
         - include/pybind11/detail/internals.h
+      files:
+        - test-pybind11-abi.sh
       commands:
-        # make sure the internals version matches the package version
-        - if [ $(grep "#define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h | cut -d' ' -f3) != "{{ abi_version }}" ]; then exit 1; fi  # [unix]
+        - bash test-pybind11-abi.sh {{ abi_version }}  # [unix]
 
   - name: pybind11-global
     script: build-pybind11-global.sh  # [unix]
@@ -58,8 +65,6 @@ outputs:
         # layouts are different on unix vs win
         - __unix        # [unix]
         - __win         # [win]
-      run_constrained:
-        - pybind11-abi =={{ abi_version }}
     test:
       commands:
         - echo "works!"
@@ -86,8 +91,6 @@ outputs:
       run:
         - python
         - pybind11-global {{ PKG_VERSION }}=*_{{ PKG_BUILDNUM }}
-      run_constrained:
-        - pybind11-abi =={{ abi_version }}
     test:
       imports:
         - pybind11
@@ -97,7 +100,7 @@ outputs:
         - test -f ${PREFIX}/include/pybind11/pybind11.h      # [unix]
         - if not exist %LIBRARY_INC%\pybind11\pybind11.h exit 1      # [win]
         - test -f $(python -c "import pybind11 as py; print(py.get_include())")/pybind11/pybind11.h      # [unix]
-        - if not exist $(python -c "import pybind11 as py; print(py.get_include())")\pybind11\pybind11.h exit 1      # [win]
+        - if not exist %SP_DIR%\pybind11\include\pybind11\pybind11.h exit 1      # [win]
 
 about:
   home: https://github.com/pybind/pybind11/
