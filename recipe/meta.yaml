@@ -100,7 +100,7 @@ outputs:
         - test -f ${PREFIX}/include/pybind11/pybind11.h      # [unix]
         - if not exist %LIBRARY_INC%\pybind11\pybind11.h exit 1      # [win]
         - test -f $(python -c "import pybind11 as py; print(py.get_include())")/pybind11/pybind11.h      # [unix]
-        - if not exist $(python -c "import pybind11 as py; print(py.get_include())")\pybind11\pybind11.h exit 1      # [win]
+        - if not exist %SP_DIR%\pybind11\include\pybind11\pybind11.h exit 1      # [win]
 
 about:
   home: https://github.com/pybind/pybind11/
