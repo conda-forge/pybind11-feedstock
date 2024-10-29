@@ -85,7 +85,7 @@ outputs:
         - setuptools
       run:
         - python
-        - {{ pin_subpackage("pybind11-global", exact=True) }}
+        - pybind11-global {{ PKG_VERSION }}=*_{{ PKG_BUILDNUM }}
       run_constrained:
         - pybind11-abi =={{ abi_version }}
     test:
@@ -93,11 +93,11 @@ outputs:
         - pybind11
       commands:
         - test -f ${PREFIX}/share/cmake/pybind11/pybind11Config.cmake                                     # [unix]
-        - if exist %LIBRARY_PREFIX%\share\cmake\pybind11\pybind11Config.cmake (exit 0) else (exit 1)      # [win]
+        - if not exist %LIBRARY_PREFIX%\share\cmake\pybind11\pybind11Config.cmake exit 1      # [win]
         - test -f ${PREFIX}/include/pybind11/pybind11.h      # [unix]
-        - if exist %LIBRARY_INC%\pybind11\pybind11.h (exit 0) else (exit 1)      # [win]
+        - if not exist %LIBRARY_INC%\pybind11\pybind11.h exit 1      # [win]
         - test -f $(python -c "import pybind11 as py; print(py.get_include())")/pybind11/pybind11.h      # [unix]
-        - if exist $(python -c "import pybind11 as py; print(py.get_include())")\pybind11\pybind11.h (exit 0) else (exit 1)      # [win]
+        - if not exist $(python -c "import pybind11 as py; print(py.get_include())")\pybind11\pybind11.h exit 1      # [win]
 
 about:
   home: https://github.com/pybind/pybind11/
