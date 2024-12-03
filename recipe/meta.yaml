@@ -14,13 +14,13 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 2
+  number: 3
   noarch: python
 
 requirements:
   host:
     # ensure we make python a top level job
-    - python
+    - python {{ python_min }}
 
 outputs:
   - name: pybind11-abi
@@ -53,17 +53,19 @@ outputs:
         - {{ compiler('cxx') }}
         - {{ stdlib("c") }}
       host:
-        - python
+        - python {{ python_min }}
         - pip
         - setuptools
       run:
-        - python
+        - python >={{ python_min }}
         # layouts are different on unix vs win
         - __unix        # [unix]
         - __win         # [win]
       run_constrained:
         - pybind11-abi =={{ abi_version }}
     test:
+      requires:
+        - python {{ python_min }}
       commands:
         - echo "works!"
 
@@ -83,15 +85,17 @@ outputs:
         - {{ compiler('cxx') }}
         - {{ stdlib("c") }}
       host:
-        - python
+        - python {{ python_min }}
         - pip
         - setuptools
       run:
-        - python
+        - python >={{ python_min }}
         - pybind11-global {{ PKG_VERSION }}=*_{{ PKG_BUILDNUM }}
       run_constrained:
         - pybind11-abi =={{ abi_version }}
     test:
+      requires:
+        - python {{ python_min }}
       imports:
         - pybind11
       commands:
