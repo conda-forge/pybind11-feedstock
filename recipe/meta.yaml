@@ -37,7 +37,7 @@ outputs:
         - include/pybind11/detail/internals.h
       commands:
         # make sure the internals version matches the package version
-        - if [ $(grep "#define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h | cut -d' ' -f3) != "{{ abi_version }}" ]; then exit 1; fi  # [unix]
+        - if [ $(awk '/^[ \t]*#[ \t]*define[ \t]+PYBIND11_INTERNALS_VERSION/ { print $NF }' include/pybind11/detail/internals.h != "{{ abi_version }}" ]; then exit 1; fi  # [unix]
 
   - name: pybind11-global
     script: build-pybind11-global.sh  # [unix]
