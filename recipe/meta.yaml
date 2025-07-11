@@ -1,5 +1,5 @@
-{% set version = "2.13.6" %}
-{% set sha256 = "e08cb87f4773da97fa7b5f035de8763abc656d87d5773e62f6da0587d1f0ec20" %}
+{% set version = "3.0.0" %}
+{% set sha256 = "453b1a3e2b266c3ae9da872411cadb6d693ac18063bd73226d96cfb7015a200c" %}
 
 # this is set to PYBIND11_INTERNALS_VERSION
 {% set abi_version = "4" %}
@@ -14,7 +14,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 3
+  number: 0
   noarch: python
 
 requirements:
@@ -31,7 +31,7 @@ outputs:
         - pybind11-abi =={{ abi_version }}
       # This output is broken. Disabling for now
       # See https://github.com/conda-forge/pybind11-feedstock/issues/96
-      skip: True
+      skip: true
     test:
       source_files:
         - include/pybind11/detail/internals.h
