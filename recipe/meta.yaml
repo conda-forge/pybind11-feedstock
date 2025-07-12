@@ -2,7 +2,7 @@
 {% set sha256 = "453b1a3e2b266c3ae9da872411cadb6d693ac18063bd73226d96cfb7015a200c" %}
 
 # this is set to PYBIND11_INTERNALS_VERSION
-{% set abi_version = "4" %}
+{% set abi_version = "11" %}
 
 package:
   name: pybind11-split
@@ -29,15 +29,15 @@ outputs:
       noarch: generic
       run_exports:
         - pybind11-abi =={{ abi_version }}
-      # This output is broken. Disabling for now
-      # See https://github.com/conda-forge/pybind11-feedstock/issues/96
-      skip: true
+
     test:
       source_files:
         - include/pybind11/detail/internals.h
       commands:
         # make sure the internals version matches the package version
-        - if [ $(grep "#define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h | cut -d' ' -f3) != "{{ abi_version }}" ]; then exit 1; fi  # [unix]
+        # this check is not perfect as it does not account for the actual preprocessor logic in the header,
+        # so please check it manually on each release
+        - if [ $(grep "define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h | tr -s ' ' | cut -d' ' -f4) != "{{ abi_version }}" ]; then exit 1; fi  # [unix]
 
   - name: pybind11-global
     script: build-pybind11-global.sh  # [unix]
@@ -56,6 +56,7 @@ outputs:
         - python {{ python_min }}
         - pip
         - setuptools
+        - scikit-build-core
       run:
         - python >={{ python_min }}
         # layouts are different on unix vs win
@@ -88,6 +89,7 @@ outputs:
         - python {{ python_min }}
         - pip
         - setuptools
+        - scikit-build-core
       run:
         - python >={{ python_min }}
         - pybind11-global {{ PKG_VERSION }}=*_{{ PKG_BUILDNUM }}
