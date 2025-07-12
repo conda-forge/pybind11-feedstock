@@ -57,6 +57,7 @@ outputs:
         - pip
         - setuptools
         - scikit-build-core
+        - tomlkit
       run:
         - python >={{ python_min }}
         # layouts are different on unix vs win
