@@ -92,7 +92,7 @@ outputs:
         - scikit-build-core
       run:
         - python >={{ python_min }}
-        - pybind11-global {{ PKG_VERSION }}=*_{{ PKG_BUILDNUM }}
+        - pybind11-global {{ PKG_VERSION }} *_{{ PKG_BUILDNUM }}
       run_constrained:
         - pybind11-abi =={{ abi_version }}
     test:
