@@ -55,7 +55,6 @@ outputs:
       host:
         - python {{ python_min }}
         - pip
-        - setuptools
         - scikit-build-core
         - tomlkit
       run:
@@ -89,7 +88,6 @@ outputs:
       host:
         - python {{ python_min }}
         - pip
-        - setuptools
         - scikit-build-core
       run:
         - python >={{ python_min }}
