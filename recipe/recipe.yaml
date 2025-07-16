@@ -30,10 +30,12 @@ outputs:
       - files:
           source:
             - include/pybind11/detail/internals.h
+          recipe:
+            - check_abi.py
         # make sure the internals version matches the package version
         # this check is not perfect as it does not account for the actual preprocessor logic in the header,
         # so please check it manually on each release
-        script: check_abi.py ${{ abi_version }}
+        script: ./check_abi.py ${{ abi_version }}
 
   - package:
       name: pybind11-global
