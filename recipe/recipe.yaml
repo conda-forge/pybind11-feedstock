@@ -63,7 +63,7 @@ outputs:
         - ${{ compiler('cxx') }}
         - ${{ stdlib("c") }}
       host:
-        - python >=${{ python_min }}
+        - python ${{ python_min }}.*
         - pip
         - scikit-build-core
         - tomlkit
@@ -102,7 +102,7 @@ outputs:
         - ${{ compiler('cxx') }}
         - ${{ stdlib("c") }}
       host:
-        - python >=${{ python_min }}
+        - python ${{ python_min }}.*
         - pip
         - scikit-build-core
       run:
@@ -112,6 +112,7 @@ outputs:
         - pybind11-abi ==${{ abi_version }}
     tests:
       - python:
+          python_version: ${{ python_min }}.*
           imports:
             - pybind11
       - script:
