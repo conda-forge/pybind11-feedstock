@@ -49,7 +49,7 @@ outputs:
     build:
       script:
         - if: win
-          then: build-pybind11-global.sh
+          then: build-pybind11-global.bat
           else: build-pybind11-global.sh
       noarch: python
     requirements:
@@ -85,7 +85,7 @@ outputs:
     build:
       script:
         - if: win
-          then: build-pybind11.sh
+          then: build-pybind11.bat
           else: build-pybind11.sh
       noarch: python
       python:
