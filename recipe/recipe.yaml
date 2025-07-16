@@ -75,6 +75,11 @@ outputs:
             - share/cmake/pybind11/pybind11Config.cmake
           include:
             - pybind11/pybind11.h
+      - script:
+          - echo "Touching requirements"
+        requirements:
+          run:
+            - pybind11-abi ==${{ abi_version }}
 
   - package:
       name: pybind11
@@ -116,8 +121,8 @@ outputs:
           files:
             - share/cmake/pybind11/pybind11Config.cmake
             - if: win
-              then: Lib/site-packages/pybind11/include/pybind11/pybind11.h
-              else: lib/python*/site-packages/pybind11/include/pybind11/pybind11.h
+              then: site-packages/pybind11/include/pybind11/pybind11.h
+              else: site-packages/pybind11/include/pybind11/pybind11.h
           include:
             - pybind11/pybind11.h
           site_packages:
@@ -129,6 +134,9 @@ outputs:
             from pathlib import Path
 
             assert Path(pybind11.get_include(), "pybind11/pybind11.h").is_file
+        requirements:
+          run:
+            - pybind11-abi ==${{ abi_version }}
 
 about:
   homepage: https://github.com/pybind/pybind11
