@@ -76,7 +76,10 @@ outputs:
               then: Library/share/cmake/pybind11/pybind11Config.cmake
               else: share/cmake/pybind11/pybind11Config.cmake
           include:
-            - pybind11/pybind11.h
+            # This is weirdly nested on Windows, but its actually noarch and Windows is for testing only
+            - if: win
+              then: pybind11-global/pybind11/pybind11.h
+              else: pybind11/pybind11.h
       - script:
           - echo "Touching requirements"
         requirements:
