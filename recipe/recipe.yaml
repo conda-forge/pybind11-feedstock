@@ -2,6 +2,7 @@ context:
   name: "pybind11"
   version: "3.0.0"
   abi_version: "11"
+  build_number: 1
 
 recipe:
   name: "pybind11-split"
@@ -12,7 +13,7 @@ source:
   sha256: 453b1a3e2b266c3ae9da872411cadb6d693ac18063bd73226d96cfb7015a200c
 
 build:
-  number: 1
+  number: ${{ build_number }}
   noarch: python
 
 outputs:
@@ -107,7 +108,7 @@ outputs:
         - scikit-build-core
       run:
         - python >=${{ python_min }}
-        - pybind11-global ${{ PKG_VERSION }} *_${{ PKG_BUILDNUM }}
+        - pybind11-global ${{ version }} *_${{ build_number }}
       run_constraints:
         - pybind11-abi ==${{ abi_version }}
     tests:
