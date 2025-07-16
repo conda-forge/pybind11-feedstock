@@ -80,11 +80,6 @@ outputs:
             - if: win
               then: pybind11-global/pybind11/pybind11.h
               else: pybind11/pybind11.h
-      - script:
-          - echo "Touching requirements"
-        requirements:
-          run:
-            - pybind11-abi ==${{ abi_version }}
 
   - package:
       name: pybind11
@@ -135,9 +130,6 @@ outputs:
             from pathlib import Path
 
             assert Path(pybind11.get_include(), "pybind11/pybind11.h").is_file
-        requirements:
-          run:
-            - pybind11-abi ==${{ abi_version }}
 
 about:
   homepage: https://github.com/pybind/pybind11
