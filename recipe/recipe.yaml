@@ -72,7 +72,9 @@ outputs:
     tests:
       - package_contents:
           files:
-            - share/cmake/pybind11/pybind11Config.cmake
+            - if: win
+              then: Library/share/cmake/pybind11/pybind11Config.cmake
+              else: share/cmake/pybind11/pybind11Config.cmake
           include:
             - pybind11/pybind11.h
       - script:
@@ -119,12 +121,8 @@ outputs:
             - pybind11
       - package_contents:
           files:
-            - share/cmake/pybind11/pybind11Config.cmake
-            - if: win
-              then: site-packages/pybind11/include/pybind11/pybind11.h
-              else: site-packages/pybind11/include/pybind11/pybind11.h
-          include:
-            - pybind11/pybind11.h
+              - site-packages/pybind11/include/pybind11/pybind11.h
+              - site-packages/pybind11/share/pybind11/pybind11Config.cmake
           site_packages:
             - pybind11
       - script:
