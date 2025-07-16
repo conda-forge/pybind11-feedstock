@@ -70,8 +70,11 @@ outputs:
       run_constraints:
         - pybind11-abi ==${{ abi_version }}
     tests:
-      - script:
-          - echo "works!"
+      - package_contents:
+          files:
+            - share/cmake/pybind11/pybind11Config.cmake
+          include:
+            - pybind11/pybind11.h
 
   - package:
       name: pybind11
@@ -109,16 +112,23 @@ outputs:
           python_version: ${{ python_min }}.*
           imports:
             - pybind11
+      - package_contents:
+          files:
+            - share/cmake/pybind11/pybind11Config.cmake
+            - if: win
+              then: Lib/site-packages/pybind11/include/pybind11/pybind11.h
+              else: lib/python*/site-packages/pybind11/include/pybind11/pybind11.h
+          include:
+            - pybind11/pybind11.h
+          site_packages:
+            - pybind11
       - script:
-          - if: win
-            then:
-              - if not exist %LIBRARY_PREFIX%\share\cmake\pybind11\pybind11Config.cmake exit 1
-              - if not exist %LIBRARY_INC%\pybind11\pybind11.h exit 1
-              - if not exist %SP_DIR%\pybind11\include\pybind11\pybind11.h exit 1
-            else:
-              - test -f ${PREFIX}/share/cmake/pybind11/pybind11Config.cmake
-              - test -f ${PREFIX}/include/pybind11/pybind11.h
-              - test -f $(python -c "import pybind11 as py; print(py.get_include())")/pybind11/pybind11.h
+          interpreter: python
+          content: |
+            import pybind11
+            from pathlib import Path
+
+            assert Path(pybind11.get_include(), "pybind11/pybind11.h").is_file
 
 about:
   homepage: https://github.com/pybind/pybind11
