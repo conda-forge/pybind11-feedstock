@@ -30,19 +30,10 @@ outputs:
       - files:
           source:
             - include/pybind11/detail/internals.h
-        script:
-          # make sure the internals version matches the package version
-          # this check is not perfect as it does not account for the actual preprocessor logic in the header,
-          # so please check it manually on each release
-          - echo "hi" # Error when rerendering if this is missing
-          - if: unix
-            then:
-              - >
-                if [ $(grep "define PYBIND11_INTERNALS_VERSION" include/pybind11/detail/internals.h
-                | tr -s ' '
-                | cut -d' ' -f4) != "{{ abi_version }}" ];
-                then exit 1;
-                fi
+        # make sure the internals version matches the package version
+        # this check is not perfect as it does not account for the actual preprocessor logic in the header,
+        # so please check it manually on each release
+        script: check_abi.py ${{ abi_version }}
 
   - package:
       name: pybind11-global
