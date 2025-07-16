@@ -122,7 +122,7 @@ outputs:
       - package_contents:
           files:
               - site-packages/pybind11/include/pybind11/pybind11.h
-              - site-packages/pybind11/share/pybind11/pybind11Config.cmake
+              - site-packages/pybind11/share/cmake/pybind11/pybind11Config.cmake
           site_packages:
             - pybind11
       - script:
