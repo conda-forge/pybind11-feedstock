@@ -3,6 +3,7 @@ context:
   version: "3.0.0"
   abi_version: "11"
   build_number: 1
+  python_min: "3.8"
 
 recipe:
   name: "pybind11-split"
@@ -80,6 +81,10 @@ outputs:
             - if: win
               then: pybind11-global/pybind11/pybind11.h
               else: pybind11/pybind11.h
+      - script: echo "Linter wants a Python pin"
+        requirements:
+          run:
+            - python >=${{ python_min }}
 
   - package:
       name: pybind11
@@ -119,8 +124,8 @@ outputs:
             - pybind11
       - package_contents:
           files:
-              - site-packages/pybind11/include/pybind11/pybind11.h
-              - site-packages/pybind11/share/cmake/pybind11/pybind11Config.cmake
+            - site-packages/pybind11/include/pybind11/pybind11.h
+            - site-packages/pybind11/share/cmake/pybind11/pybind11Config.cmake
           site_packages:
             - pybind11
       - script:
