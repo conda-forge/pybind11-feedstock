@@ -3,7 +3,6 @@ context:
   version: "3.0.0"
   abi_version: "11"
   build_number: 1
-  python_min: "3.8"
 
 recipe:
   name: "pybind11-split"
