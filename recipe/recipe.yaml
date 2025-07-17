@@ -1,0 +1,153 @@
+context:
+  name: "pybind11"
+  version: "3.0.0"
+  abi_version: "11"
+  build_number: 1
+
+recipe:
+  name: "pybind11-split"
+  version: ${{ version }}
+
+source:
+  url: https://github.com/pybind/pybind11/archive/v${{ version }}.tar.gz
+  sha256: 453b1a3e2b266c3ae9da872411cadb6d693ac18063bd73226d96cfb7015a200c
+
+build:
+  number: ${{ build_number }}
+  noarch: python
+
+outputs:
+  - package:
+      name: pybind11-abi
+      version: ${{ abi_version }}
+    build:
+      noarch: generic
+    requirements:
+      run_exports:
+        - pybind11-abi ==${{ abi_version }}
+
+    tests:
+      - files:
+          source:
+            - include/pybind11/detail/internals.h
+          recipe:
+            - check_abi.py
+        # make sure the internals version matches the package version
+        # this check is not perfect as it does not account for the actual preprocessor logic in the header,
+        # so please check it manually on each release
+        script: python check_abi.py ${{ abi_version }}
+
+  - package:
+      name: pybind11-global
+    build:
+      script:
+        - if: win
+          then: build-pybind11-global.bat
+          else: build-pybind11-global.sh
+      noarch: python
+    requirements:
+      build:
+        - if: build_platform != target_platform
+          then:
+            - python
+            - cross-python_${{ target_platform }}
+        - cmake
+        - if: unix
+          then: make
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib("c") }}
+      host:
+        - python ${{ python_min }}.*
+        - pip
+        - scikit-build-core
+        - tomlkit
+      run:
+        - python >=${{ python_min }}
+        # layouts are different on unix vs win
+        - if: win
+          then: __win
+          else: __unix
+      run_constraints:
+        - pybind11-abi ==${{ abi_version }}
+    tests:
+      - package_contents:
+          files:
+            - if: win
+              then: Library/share/cmake/pybind11/pybind11Config.cmake
+              else: share/cmake/pybind11/pybind11Config.cmake
+          include:
+            # This is weirdly nested on Windows, but its actually noarch and Windows is for testing only
+            - if: win
+              then: pybind11-global/pybind11/pybind11.h
+              else: pybind11/pybind11.h
+      - script: echo "Linter wants a Python pin"
+        requirements:
+          run:
+            - python ==${{ python_min }}.*
+
+  - package:
+      name: pybind11
+    build:
+      script:
+        - if: win
+          then: build-pybind11.bat
+          else: build-pybind11.sh
+      noarch: python
+      python:
+        entry_points:
+          - pybind11-config = pybind11.__main__:main
+    requirements:
+      build:
+        - if: build_platform != target_platform
+          then:
+            - python
+            - cross-python_${{ target_platform }}
+        - cmake
+        - if: unix
+          then: make
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib("c") }}
+      host:
+        - python ${{ python_min }}.*
+        - pip
+        - scikit-build-core
+      run:
+        - python >=${{ python_min }}
+        - pybind11-global ==${{ version }} *_${{ build_number }}
+      run_constraints:
+        - pybind11-abi ==${{ abi_version }}
+    tests:
+      - python:
+          python_version: ${{ python_min }}.*
+          imports:
+            - pybind11
+      - package_contents:
+          files:
+            - site-packages/pybind11/include/pybind11/pybind11.h
+            - site-packages/pybind11/share/cmake/pybind11/pybind11Config.cmake
+          site_packages:
+            - pybind11
+      - script:
+          interpreter: python
+          content: |
+            import pybind11
+            from pathlib import Path
+
+            assert Path(pybind11.get_include(), "pybind11/pybind11.h").is_file
+
+about:
+  homepage: https://github.com/pybind/pybind11
+  repository: https://github.com/pybind/pybind11
+  summary: Seamless operability between C++11 and Python
+  license: BSD-3-Clause
+  license_family: BSD
+  license_file: LICENSE
+  documentation: https://pybind11.readthedocs.io
+
+extra:
+  feedstock-name: pybind11
+  recipe-maintainers:
+    - ax3l
+    - SylvainCorlay
+    - wjakob
+    - henryiii
