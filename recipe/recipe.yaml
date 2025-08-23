@@ -1,8 +1,9 @@
 context:
   name: "pybind11"
-  version: "3.0.0"
+  version: "3.0.1"
   abi_version: "11"
-  build_number: 1
+  build_number: 0
+  python_min: "3.8"
 
 recipe:
   name: "pybind11-split"
@@ -10,7 +11,7 @@ recipe:
 
 source:
   url: https://github.com/pybind/pybind11/archive/v${{ version }}.tar.gz
-  sha256: 453b1a3e2b266c3ae9da872411cadb6d693ac18063bd73226d96cfb7015a200c
+  sha256: 741633da746b7c738bb71f1854f957b9da660bcd2dce68d71949037f0969d0ca
 
 build:
   number: ${{ build_number }}
@@ -59,7 +60,7 @@ outputs:
       host:
         - python ${{ python_min }}.*
         - pip
-        - scikit-build-core
+        - scikit-build-core >=0.11.2
         - tomlkit
       run:
         - python >=${{ python_min }}
