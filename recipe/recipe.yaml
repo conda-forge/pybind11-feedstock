@@ -84,7 +84,7 @@ outputs:
       - script: echo "Linter wants a Python pin"
         requirements:
           run:
-            - python ==${{ python_min }}.*
+            - python ${{ python_min }}.*
 
   - package:
       name: pybind11
