@@ -1,6 +1,6 @@
 context:
   name: "pybind11"
-  version: "3.0.1"
+  version: "3.0.2"
   abi_version: "11"
   build_number: 0
   python_min: "3.8"
@@ -11,7 +11,7 @@ recipe:
 
 source:
   url: https://github.com/pybind/pybind11/archive/v${{ version }}.tar.gz
-  sha256: 741633da746b7c738bb71f1854f957b9da660bcd2dce68d71949037f0969d0ca
+  sha256: 2f20a0af0b921815e0e169ea7fec63909869323581b89d7de1553468553f6a2d
 
 build:
   number: ${{ build_number }}
