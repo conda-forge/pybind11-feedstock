@@ -53,6 +53,8 @@ outputs:
             - python
             - cross-python_${{ target_platform }}
         - cmake
+        - if: win
+          then: ninja
         - if: unix
           then: make
         - ${{ compiler('cxx') }}
@@ -104,6 +106,8 @@ outputs:
             - python
             - cross-python_${{ target_platform }}
         - cmake
+        - if: win
+          then: ninja
         - if: unix
           then: make
         - ${{ compiler('cxx') }}
