@@ -8,9 +8,13 @@ if errorlevel 1 exit 1
 
 :: Build with generated pyprojectglobal.toml
 move /Y pyprojectglobal.toml pyproject.toml
-:: Use Ninja so CMake does not fall back to the Visual Studio generator,
-:: which cannot find a full VS install on the conda-forge Windows runners.
+:: Use Ninja: the conda-forge Windows runners expose no vswhere-discoverable
+:: VS instance, so CMake's "Visual Studio" generator cannot configure here.
+:: The vs2022 activation sets CMAKE_GENERATOR_PLATFORM/TOOLSET for that
+:: generator; clear them, since Ninja rejects a platform/toolset spec.
 set "CMAKE_GENERATOR=Ninja"
+set "CMAKE_GENERATOR_PLATFORM="
+set "CMAKE_GENERATOR_TOOLSET="
 :: There are several required flags, like --no-deps, but conda-build nicely sets them for us
 :: https://github.com/conda/conda-build/blob/d75ef9c66dbcc832d8d96f33a2aecfe893266e8c/conda_build/build.py#L2517-L2527
 %PYTHON% -m pip install . -vv --no-build-isolation --config-settings=wheel.install-dir=/data/Library
