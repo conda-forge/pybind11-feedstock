@@ -119,7 +119,9 @@ outputs:
         - pybind11-abi ==${{ abi_version }}
     tests:
       - python:
-          python_version: ${{ python_min }}.*
+          python_version:
+            - ${{ python_min }}.*
+            - "*"
           imports:
             - pybind11
       - package_contents:
